@@ -1,1 +1,1 @@
-# Se-Ryung-highschool
+# SR
