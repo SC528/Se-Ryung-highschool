@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>여름의 꽃은 일찍 진다 - 세령국제고등학교</title>
+    <style>
+        /* 🎨 글로벌 스타일 & 테마 정의 */
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --accent-red: #e53e3e;
+            --accent-blue: #3182ce;
+            --text-main: #c9d1d9;
+            --text-muted: #8b949e;
+            --border-color: #30363d;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; padding-bottom: 50px; overflow-x: hidden; }
+
+        /* 📱 1. 스마트폰 긴급재난문자 오버레이 */
+        #mobile-alert-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #eef2f5; z-index: 9999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 20px; cursor: pointer; user-select: none;
+            transition: opacity 0.8s ease-in-out, visibility 0.8s;
+        }
+
+        .phone-alert-container {
+            width: 100%; max-width: 420px;
+            display: flex; flex-direction: column; gap: 16px;
+            position: relative; z-index: 2;
+        }
+
+        .mobile-bubble {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 18px 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+            border: 1px solid #e1e4e8;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .mobile-bubble-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .alert-title-wrap { display: flex; align-items: center; gap: 8px; }
+        .alert-icon {
+            width: 22px; height: 22px; background: #e53e3e; color: #fff;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 11px; font-weight: bold;
+        }
+        .alert-sender { font-size: 0.9rem; font-weight: 700; color: #1f2328; }
+        .alert-time { font-size: 0.75rem; color: #6e7781; font-weight: 500; transition: color 0.3s; }
+
+        .mobile-bubble-body {
+            font-size: 0.92rem; color: #24292f; line-height: 1.5; font-weight: 400;
+        }
+
+        #msg-2 {
+            opacity: 0; transform: translateY(20px) scale(0.96); pointer-events: none; display: none;
+        }
+
+        #msg-2.show {
+            display: block; opacity: 1; transform: translateY(0) scale(1);
+            animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: translateY(20px) scale(0.96); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .click-guide {
+            margin-top: 32px; font-size: 0.85rem; color: #57606a; font-weight: 500;
+            letter-spacing: -0.3px; animation: pulse 1.8s infinite; z-index: 2;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        #mobile-alert-overlay.fade-out {
+            opacity: 0; visibility: hidden;
+        }
+
+        /* 🏫 메인 헤더 디자인 */
+        header {
+            background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 2px solid var(--accent-red);
+            padding: 48px 20px 36px 20px; text-align: center;
+            position: relative;
+        }
+        
+        .story-title {
+            font-size: 0.85rem; color: var(--accent-red); font-weight: 700;
+            letter-spacing: 4px; margin-bottom: 12px; text-transform: uppercase;
+            display: inline-block; padding: 3px 12px; background: rgba(229, 62, 62, 0.1);
+            border-radius: 20px; border: 1px solid rgba(229, 62, 62, 0.2);
+        }
+
+        .main-school-title {
+            font-size: 2.3rem; font-weight: 800; color: #ffffff;
+            letter-spacing: -0.5px; margin-bottom: 4px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .sub-school-title {
+            font-size: 0.85rem; font-weight: 500; color: var(--text-muted);
+            letter-spacing: 2px; opacity: 0.8;
+        }
+
+        /* 📌 네비게이션 메인 탭 */
+        nav {
+            display: flex; justify-content: center; gap: 10px; background: var(--card-bg);
+            padding: 12px; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100;
+        }
+        .nav-btn {
+            background: transparent; color: var(--text-muted); border: 1px solid transparent;
+            padding: 8px 18px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: all 0.2s;
+        }
+        .nav-btn:hover, .nav-btn.active {
+            color: #fff; background: var(--border-color); border-color: var(--accent-red);
+        }
+
+        /* 📄 컨텐츠 레이아웃 */
+        main { max-width: 800px; margin: 30px auto; padding: 0 20px; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        .section-title { font-size: 1.4rem; color: #fff; border-left: 4px solid var(--accent-red); padding-left: 12px; margin-bottom: 20px; font-weight: 700; }
+
+        /* 👥 캐릭터 카드 스타일 (1열 정렬 & 클릭 가능) */
+        .character-list { display: flex; flex-direction: column; gap: 20px; }
+
+        .char-card {
+            display: flex; background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 8px; overflow: hidden; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+            width: 100%; cursor: pointer; position: relative;
+        }
+        .char-card:hover { 
+            transform: translateY(-3px); 
+            border-color: var(--accent-red); 
+            box-shadow: 0 4px 20px rgba(229, 62, 62, 0.15);
+        }
+        
+        .char-card::after {
+            font-size: 0.75rem; color: var(--text-muted); background: #0d1117;
+            padding: 2px 8px; border-radius: 12px; border: 1px solid var(--border-color);
+        }
+
+        .char-img-wrap {
+            width: 140px; min-height: 180px; background: #21262d; display: flex;
+            align-items: center; justify-content: center; flex-shrink: 0; border-right: 1px solid var(--border-color);
+            position: relative;
+        }
+        .char-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+        .img-placeholder { font-size: 0.8rem; color: var(--text-muted); text-align: center; padding: 10px; }
+
+        .char-info { padding: 16px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .char-header { display: flex; justify-content: flex-start; align-items: center; gap: 10px; margin-bottom: 8px; padding-right: 70px; }
+        .char-name { font-size: 1.15rem; font-weight: bold; color: #fff; }
+        .char-tag { font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; background: #21262d; color: var(--accent-blue); border: 1px solid var(--border-color); }
+        .char-desc { font-size: 0.85rem; color: var(--text-main); margin-bottom: 10px; }
+        .char-spec { font-size: 0.8rem; color: var(--text-muted); background: #0d1117; padding: 8px; border-radius: 4px; }
+
+        /* 🔍 캐릭터 상세 모달 팝업 */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.85); z-index: 20000; display: none;
+            align-items: center; justify-content: center; padding: 20px;
+            backdrop-filter: blur(4px);
+        }
+        .modal-overlay.active { display: flex; animation: fadeIn 0.25s ease-out; }
+
+        .modal-content {
+            background: var(--card-bg); border: 1px solid var(--accent-red);
+            border-radius: 12px; width: 100%; max-width: 650px; max-height: 90vh;
+            overflow-y: auto; padding: 24px; position: relative; color: var(--text-main);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .modal-close-btn {
+            position: absolute; top: 16px; right: 20px; font-size: 1.8rem;
+            color: var(--text-muted); cursor: pointer; border: none; background: transparent;
+            line-height: 1; transition: color 0.2s;
+        }
+        .modal-close-btn:hover { color: #fff; }
+
+        .modal-header { border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px; }
+        .modal-title { font-size: 1.5rem; color: #fff; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+        .modal-quote { font-style: italic; color: var(--accent-red); margin-top: 6px; font-size: 0.95rem; }
+
+        .modal-body-spec { background: #0d1117; padding: 14px; border-radius: 6px; border: 1px solid var(--border-color); font-size: 0.9rem; margin-bottom: 20px; }
+
+        /* 🖼️ 추가 이미지 갤러리 영역 (2개) */
+        .extra-gallery-title { font-size: 1rem; color: #fff; font-weight: bold; margin-bottom: 10px; border-left: 3px solid var(--accent-blue); padding-left: 8px; }
+        .extra-gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px; }
+        
+        .extra-img-card {
+            width: 100%; height: 220px; background: #0d1117; border: 1px dashed var(--border-color);
+            border-radius: 6px; display: flex; align-items: center; justify-content: center;
+            overflow: hidden; position: relative;
+        }
+        .extra-img-card img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* 🏫 시설 갤러리 카드 스타일 */
+        .facility-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+        .facility-card {
+            background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px;
+            overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s, border-color 0.2s;
+        }
+        .facility-card:hover { transform: translateY(-3px); border-color: #58a6ff; }
+        .facility-card.danger-card { border-color: rgba(229, 62, 62, 0.4); }
+        .facility-card.danger-card:hover { border-color: var(--accent-red); }
+
+        .facility-img-wrap {
+            width: 100%; height: 160px; background: #21262d; display: flex;
+            align-items: center; justify-content: center; border-bottom: 1px solid var(--border-color);
+        }
+        .facility-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+
+        .facility-info { padding: 15px; flex-grow: 1; }
+        .facility-name { font-size: 1rem; font-weight: bold; color: #fff; margin-bottom: 6px; }
+        .facility-desc { font-size: 0.85rem; color: var(--text-main); line-height: 1.4; }
+
+        /* 🏫 학교 및 시스템 정보 스타일 */
+        .info-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+        .info-card h3 { color: #fff; margin-bottom: 12px; font-size: 1.05rem; }
+        .info-list { list-style: none; }
+        .info-list li { margin-bottom: 8px; font-size: 0.9rem; padding-left: 15px; position: relative; }
+        .info-list li::before { content: "•"; color: var(--accent-red); position: absolute; left: 0; }
+
+        /* 💻 푸터 */
+        footer { text-align: center; margin-top: 50px; font-size: 0.8rem; color: var(--text-muted); }
+    </style>
+</head>
+<body>
+
+    <!-- 📱 1. 스마트폰 긴급재난문자 오버레이 -->
+    <div id="mobile-alert-overlay" onclick="handleScreenClick()">
+        <div class="phone-alert-container">
+            <!-- 첫 번째 재난문자 -->
+            <div class="mobile-bubble" id="msg-1">
+                <div class="mobile-bubble-header">
+                    <div class="alert-title-wrap">
+                        <div class="alert-icon">🚨</div>
+                        <span class="alert-sender">긴급재난문자 [행정안전부]</span>
+                    </div>
+                    <span class="alert-time" id="time-msg-1">방금 전</span>
+                </div>
+                <div class="mobile-bubble-body">
+                    [원인 불명의 이상 폭력 증상 감염병 전국 확산] 수도권 전역에 비상사태가 선포되었습니다. 시민 여러분께서는 즉시 실내로 대피하고 문을 잠그시기 바랍니다.
+                </div>
+            </div>
+
+            <!-- 두 번째 재난문자 -->
+            <div class="mobile-bubble" id="msg-2">
+                <div class="mobile-bubble-header">
+                    <div class="alert-title-wrap">
+                        <div class="alert-icon">🚨</div>
+                        <span class="alert-sender">긴급재난문자 [경기재난대책본부]</span>
+                    </div>
+                    <span class="alert-time" id="time-msg-2">지금</span>
+                </div>
+                <div class="mobile-bubble-body">
+                    [세령시 지역 교내 대피령] 세령국제고등학교 잔류 학생 및 교직원은 외부 이동을 금지하고, 교내 수색 학생들의 인적사항과 교내 시설 현황을 확인하십시오.
+                </div>
+            </div>
+        </div>
+
+        <div class="click-guide" id="click-guide-text">
+            화면을 클릭하여 다음 메시지 확인
+        </div>
+    </div>
+
+    <!-- 🏫 메인 페이지 -->
+    <header>
+        <div class="story-title">여름의 꽃은 일찍 진다</div>
+        <h1 class="main-school-title">세령국제고등학교</h1>
+        <div class="sub-school-title">SEARYEONG GLOBAL HIGH SCHOOL</div>
+    </header>
+
+    <nav>
+        <button class="nav-btn active" onclick="switchTab('characters', this)">생존자</button>
+        <button class="nav-btn" onclick="switchTab('school', this)">학교 안내</button>
+        <button class="nav-btn" onclick="switchTab('system', this)">채팅봇 가이드</button>
+    </nav>
+
+    <main>
+        <!-- 👥 1. 캐릭터 섹션 (클릭 이벤트 적용) -->
+        <section id="characters" class="tab-content active">
+            
+            <div class="character-list">
+                <!-- 채정우 -->
+                <div class="char-card" onclick="openCharModal(this)"
+                     data-name="채정우 (18/남)" data-tag="#야구부 #쾌남" data-desc='"뒤에 딱 붙어 있어라. 놓치면 안 구한다."'
+                     data-spec="• 2학년 3반 | 187cm<br>• 주무기: 알루미늄 야구배트<br>• 빠른 상황 판단력 및 생존 능력"
+                     data-img1="" data-img2="">
+                    <div class="char-img-wrap">
+                        <!-- <img src="images/jungwoo.png" alt="채정우"> -->
+                        <div class="img-placeholder">이미지 영역<br>(채정우)</div>
+                    </div>
+                    <div class="char-info">
+                        <div>
+                            <div class="char-header">
+                                <span class="char-name">채정우 (18/남)</span>
+                                <span class="char-tag">#야구부 #쾌남</span>
+                            </div>
+                            <p class="char-desc">"뒤에 딱 붙어 있어라. 놓치면 안 구한다."</p>
+                        </div>
+                        <div class="char-spec">
+                            • 2학년 3반 | 187cm<br>
+                            • 주무기: 알루미늄 야구배트<br>
+                            • 빠른 상황 판단력 및 생존 능력
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 진태영 -->
+                <div class="char-card" onclick="openCharModal(this)"
+                     data-name="진태영 (19/남)" data-tag="#전교1등 #브레인" data-desc='"감정에 치우치면 다 죽어요. 이성적으로 판단하세요."'
+                     data-spec="• 3학년 1반 | 전교회장/도서부<br>• 주무기: 기초 의학 지식 & 전략<br>• 내면의 불안감을 숨긴 책임감"
+                     data-img1="" data-img2="">
+                    <div class="char-img-wrap">
+                        <!-- <img src="images/taeyoung.png" alt="진태영"> -->
+                        <div class="img-placeholder">이미지 영역<br>(진태영)</div>
+                    </div>
+                    <div class="char-info">
+                        <div>
+                            <div class="char-header">
+                                <span class="char-name">진태영 (19/남)</span>
+                                <span class="char-tag">#전교1등 #브레인</span>
+                            </div>
+                            <p class="char-desc">"감정에 치우치면 다 죽어요. 이성적으로 판단하세요."</p>
+                        </div>
+                        <div class="char-spec">
+                            • 3학년 1반 | 전교회장/도서부<br>
+                            • 주무기: 기초 의학 지식 & 전략<br>
+                            • 내면의 불안감을 숨긴 책임감
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 윤노을 -->
+                <div class="char-card" onclick="openCharModal(this)"
+                     data-name="윤노을 (17/남)" data-tag="#댄스부 #분위기메이커" data-desc='"아, 우울하게 왜 그래? 나 믿고 따라오라니까?"'
+                     data-spec="• 1학년 7반 | 174cm<br>• 특기: 분위기 반전, 빠른 눈치<br>• 센스 있는 서포트 및 순발력"
+                     data-img1="" data-img2="">
+                    <div class="char-img-wrap">
+                        <!-- <img src="images/noeul.png" alt="윤노을"> -->
+                        <div class="img-placeholder">이미지 영역<br>(윤노을)</div>
+                    </div>
+                    <div class="char-info">
+                        <div>
+                            <div class="char-header">
+                                <span class="char-name">윤노을 (17/남)</span>
+                                <span class="char-tag">#댄스부 #분위기메이커</span>
+                            </div>
+                            <p class="char-desc">"아, 우울하게 왜 그래? 나 믿고 따라오라니까?"</p>
+                        </div>
+                        <div class="char-spec">
+                            • 1학년 7반 | 174cm<br>
+                            • 특기: 분위기 반전, 빠른 눈치<br>
+                            • 센스 있는 서포트 및 순발력
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 박도진 -->
+                <div class="char-card" onclick="openCharModal(this)"
+                     data-name="박도진 (18/남)" data-tag="#음악감상부 #신중함" data-desc='"...발소리 줄여. 옆에 지나간다."'
+                     data-spec="• 2학년 4반 | 181cm<br>• 특기: 은신, 침착한 상황 판단<br>• 박도연의 쌍둥이 남동생"
+                     data-img1="" data-img2="">
+                    <div class="char-img-wrap">
+                        <!-- <img src="images/dojin.png" alt="박도진"> -->
+                        <div class="img-placeholder">이미지 영역<br>(박도진)</div>
+                    </div>
+                    <div class="char-info">
+                        <div>
+                            <div class="char-header">
+                                <span class="char-name">박도진 (18/남)</span>
+                                <span class="char-tag">#음악감상부 #신중함</span>
+                            </div>
+                            <p class="char-desc">"...발소리 줄여. 옆에 지나간다."</p>
+                        </div>
+                        <div class="char-spec">
+                            • 2학년 4반 | 181cm<br>
+                            • 특기: 은신, 침착한 상황 판단<br>
+                            • 박도연의 쌍둥이 남동생
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 박도연 -->
+                <div class="char-card" onclick="openCharModal(this)"
+                     data-name="박도연 (18/여)" data-tag="#배구부 #행동파" data-desc='"건드리면 다 던져버린다. 진짜야."'
+                     data-spec="• 2학년 4반 | 배구부 부회장<br>• 주무기: 강한 완력 및 원거리 투척<br>• 박도진의 쌍둥이 누나"
+                     data-img1="" data-img2="">
+                    <div class="char-img-wrap">
+                        <!-- <img src="images/doyeon.png" alt="박도연"> -->
+                        <div class="img-placeholder">이미지 영역<br>(박도연)</div>
+                    </div>
+                    <div class="char-info">
+                        <div>
+                            <div class="char-header">
+                                <span class="char-name">박도연 (18/여)</span>
+                                <span class="char-tag">#배구부 #행동파</span>
+                            </div>
+                            <p class="char-desc">"건드리면 다 던져버린다. 진짜야."</p>
+                        </div>
+                        <div class="char-spec">
+                            • 2학년 4반 | 배구부 부회장<br>
+                            • 주무기: 강한 완력 및 원거리 투척<br>
+                            • 박도진의 쌍둥이 누나
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 서이래 -->
+                <div class="char-card" onclick="openCharModal(this)"
+                     data-name="서이래 (17/여)" data-tag="#방송부 #반장" data-desc='"매뉴얼대로 해요. 그게 제일 안전해요."'
+                     data-spec="• 1학년 2반 반장 | 방송부<br>• 특기: 방송 장비 운용, 리더십<br>• 계획 수립을 통한 위험 회피"
+                     data-img1="" data-img2="">
+                    <div class="char-img-wrap">
+                        <!-- <img src="images/irae.png" alt="서이래"> -->
+                        <div class="img-placeholder">이미지 영역<br>(서이래)</div>
+                    </div>
+                    <div class="char-info">
+                        <div>
+                            <div class="char-header">
+                                <span class="char-name">서이래 (17/여)</span>
+                                <span class="char-tag">#방송부 #반장</span>
+                            </div>
+                            <p class="char-desc">"매뉴얼대로 해요. 그게 제일 안전해요."</p>
+                        </div>
+                        <div class="char-spec">
+                            • 1학년 2반 반장 | 방송부<br>
+                            • 특기: 방송 장비 운용, 리더십<br>
+                            • 계획 수립을 통한 위험 회피
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 🏫 2. 학교 안내 섹션 -->
+        <section id="school" class="tab-content">
+            <h2 class="section-title">세령국제고등학교 개요 및 시설 현황</h2>
+            
+            <div class="info-card">
+                <h3>📍 학교 기본 정보</h3>
+                <ul class="info-list">
+                    <li><strong>위치:</strong> 경기도 남부 위치 기숙사형 특목고 (학년당 200명)</li>
+                    <li><strong>특징:</strong> 한국대학교 등 명문대 지망생 다수 재학</li>
+                    <li><strong>교화 / 교목:</strong> 백합 / 소나무</li>
+                </ul>
+            </div>
+
+            <h3 style="color: #fff; margin: 25px 0 15px 0; font-size: 1.15rem;">🏫 교내 주요 시설 갤러리</h3>
+            
+            <div class="facility-grid">
+                <!-- 1. 교실 -->
+                <div class="facility-card">
+                    <div class="facility-img-wrap">
+                        <!-- <img src="images/classroom.png" alt="교실"> -->
+                        <div class="img-placeholder">이미지 영역<br>(교실)</div>
+                    </div>
+                    <div class="facility-info">
+                        <div class="facility-name">교실 (본관 2~4층)</div>
+                        <div class="facility-desc">각 학년별 면학 공간. 5교시 당시 감염자가 첫 발생한 장소. 현재 책상으로 임시 진지가 구축됨.</div>
+                    </div>
+                </div>
+
+                <!-- 2. 복도 -->
+                <div class="facility-card">
+                    <div class="facility-img-wrap">
+                        <!-- <img src="images/hallway.png" alt="복도"> -->
+                        <div class="img-placeholder">이미지 영역<br>(복도)</div>
+                    </div>
+                    <div class="facility-info">
+                        <div class="facility-name">복도 (본관)</div>
+                        <div class="facility-desc">창문 너머 피 흔적과 파손된 기물들로 아수라장이 된 이동 통로. 시야 확보가 어렵고 좀비 출몰 위험도 높음.</div>
+                    </div>
+                </div>
+
+                <!-- 3. 기숙사 -->
+                <div class="facility-card">
+                    <div class="facility-img-wrap">
+                        <!-- <img src="images/dormitory.png" alt="기숙사"> -->
+                        <div class="img-placeholder">이미지 영역<br>(기숙사)</div>
+                    </div>
+                    <div class="facility-info">
+                        <div class="facility-name">기숙사 (A동 여 / B동 남)</div>
+                        <div class="facility-desc">4인 1실 구조. 사태 발발 전 야식 과자파티와 괴담 토크가 진행되던 공간. 개인 생존 물품 탐색 가능.</div>
+                    </div>
+                </div>
+
+                <!-- 4. 과학실 -->
+                <div class="facility-card">
+                    <div class="facility-img-wrap">
+                        <!-- <img src="images/lab.png" alt="과학실"> -->
+                        <div class="img-placeholder">이미지 영역<br>(과학실)</div>
+                    </div>
+                    <div class="facility-info">
+                        <div class="facility-name">과학실 (별관)</div>
+                        <div class="facility-desc">각종 화학 약품 및 실험 도구가 보관된 장소. 급조 무기 제작 및 소독용 알코올 획득 가능 구역.</div>
+                    </div>
+                </div>
+
+                <!-- 5. 급식실 -->
+                <div class="facility-card danger-card">
+                    <div class="facility-img-wrap">
+                        <!-- <img src="images/cafeteria.png" alt="급식실"> -->
+                        <div class="img-placeholder">이미지 영역<br>(급식실)</div>
+                    </div>
+                    <div class="facility-info">
+                        <div class="facility-name" style="color: var(--accent-red);">급식실 (별관 1층) ⚠️</div>
+                        <div class="facility-desc">식량 및 보급품이 다수 존재하나, 감염자 무리가 점거 중인 <strong>최고 위험 지역 (접근 절대 금지)</strong>.</div>
+                    </div>
+                </div>
+
+                <!-- 6. 운동장 -->
+                <div class="facility-card">
+                    <div class="facility-img-wrap">
+                        <!-- <img src="images/playground.png" alt="운동장"> -->
+                        <div class="img-placeholder">이미지 영역<br>(운동장)</div>
+                    </div>
+                    <div class="facility-info">
+                        <div class="facility-name">운동장</div>
+                        <div class="facility-desc">탁 트여 있어 시야는 확보되나 은폐물 부족. 야구부 채정우와 배구부 박도연의 주 활동 무대.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 📜 3. 시스템 가이드 섹션 -->
+        <section id="system" class="tab-content">
+            <h2 class="section-title">채팅봇 전용 단축어 안내</h2>
+            <div class="info-card">
+                <h3>🤖 주요 명령어 및 기능</h3>
+                <ul class="info-list">
+                    <li><strong><code>/상태창</code> 또는 <code>/상황</code></strong> : 현재 위치, 소음도, 보급품, 동행자 상태 및 최종 목표 확인</li>
+                    <li><strong><code>/조사</code></strong> : 머물고 있는 공간 수색 및 생존 아이템 탐색</li>
+                    <li><strong><code>/전투</code></strong> : 돌발 좀비 조우 시 동행 캐릭터들과 연합 전투 시작</li>
+                    <li><strong><code>(OOC: 내용)</code></strong> : AI 시스템에게 특정 연출이나 환경 변화 요청</li>
+                </ul>
+            </div>
+            <div class="info-card">
+                <h3>⚠️ 통신 마비 타임라인</h3>
+                <ul class="info-list">
+                    <li><strong>10일차:</strong> 와이파이 및 데이터 마비 (`/커뮤` 사용 불가)</li>
+                    <li><strong>20일차:</strong> 스마트폰 신호 완전 차단 (`/폰` 기능 제한)</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- 🔍 캐릭터 상세보기 모달 팝업 -->
+    <div class="modal-overlay" id="char-modal" onclick="closeCharModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close-btn" onclick="closeCharModalDirect()">&times;</button>
+            <div class="modal-header">
+                <div class="modal-title">
+                    <span id="modal-char-name">캐릭터 이름</span>
+                    <span class="char-tag" id="modal-char-tag">#태그</span>
+                </div>
+                <div class="modal-quote" id="modal-char-desc">"캐릭터 대사"</div>
+            </div>
+            <div class="modal-body-spec" id="modal-char-spec">
+                상세 프로필 정보 영역
+            </div>
+
+            <!-- 추가 이미지 2장 영역 -->
+            <div class="extra-gallery-title">📸 상세 캐릭터 일러스트 / 추가 이미지</div>
+            <div class="extra-gallery-grid">
+                <div class="extra-img-card" id="modal-img-wrap-1">
+                    <div class="img-placeholder">추가 이미지 1<br>(경로 설정 필요)</div>
+                </div>
+                <div class="extra-img-card" id="modal-img-wrap-2">
+                    <div class="img-placeholder">추가 이미지 2<br>(경로 설정 필요)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        COPYRIGHT (C) SEARYEONG GLOBAL HIGH SCHOOL. ALL RIGHTS RESERVED.
+    </footer>
+
+    <script>
+        // 📱 화면 클릭 스크립트 (노이즈 연출 제거)
+        let clickStep = 0;
+
+        function handleScreenClick() {
+            const msg2 = document.getElementById('msg-2');
+            const timeMsg1 = document.getElementById('time-msg-1');
+            const guideText = document.getElementById('click-guide-text');
+            const overlay = document.getElementById('mobile-alert-overlay');
+
+            if (clickStep === 0) {
+                timeMsg1.innerText = '1분 전';
+                msg2.classList.add('show');
+                guideText.innerText = '화면을 다시 클릭하여 시스템 접속';
+                clickStep = 1;
+            } else if (clickStep === 1) {
+                overlay.classList.add('fade-out');
+                clickStep = 2;
+            }
+        }
+
+        // 🔍 캐릭터 상세 모달 스크립트
+        function openCharModal(cardEl) {
+            const name = cardEl.getAttribute('data-name');
+            const tag = cardEl.getAttribute('data-tag');
+            const desc = cardEl.getAttribute('data-desc');
+            const spec = cardEl.getAttribute('data-spec');
+            const img1 = cardEl.getAttribute('data-img1');
+            const img2 = cardEl.getAttribute('data-img2');
+
+            document.getElementById('modal-char-name').innerText = name;
+            document.getElementById('modal-char-tag').innerText = tag;
+            document.getElementById('modal-char-desc').innerText = desc;
+            document.getElementById('modal-char-spec').innerHTML = spec;
+
+            // 추가 이미지 1 처리
+            const imgWrap1 = document.getElementById('modal-img-wrap-1');
+            if (img1) {
+                imgWrap1.innerHTML = `<img src="${img1}" alt="${name} 추가 이미지 1">`;
+            } else {
+                imgWrap1.innerHTML = `<div class="img-placeholder">추가 이미지 1<br>(경로 설정 필요)</div>`;
+            }
+
+            // 추가 이미지 2 처리
+            const imgWrap2 = document.getElementById('modal-img-wrap-2');
+            if (img2) {
+                imgWrap2.innerHTML = `<img src="${img2}" alt="${name} 추가 이미지 2">`;
+            } else {
+                imgWrap2.innerHTML = `<div class="img-placeholder">추가 이미지 2<br>(경로 설정 필요)</div>`;
+            }
+
+            document.getElementById('char-modal').classList.add('active');
+        }
+
+        function closeCharModal(e) {
+            if (e.target.id === 'char-modal') {
+                document.getElementById('char-modal').classList.remove('active');
+            }
+        }
+
+        function closeCharModalDirect() {
+            document.getElementById('char-modal').classList.remove('active');
+        }
+
+        // 📌 탭 전환 스크립트
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+        }
+    </script>
+</body>
+</html>
