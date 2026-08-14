@@ -146,91 +146,116 @@
         .section-title { font-size: 1.4rem; color: #fff; border-left: 4px solid var(--accent-red); padding-left: 12px; margin-bottom: 20px; font-weight: 700; }
 
         /* 👥 캐릭터 카드 스타일 (1열 정렬 & 클릭 가능) */
-        .character-list { display: flex; flex-direction: column; gap: 20px; }
+.character-list { display: flex; flex-direction: column; gap: 20px; }
 
-        .char-card {
-            display: flex; background: var(--card-bg); border: 1px solid var(--border-color);
-            border-radius: 8px; overflow: hidden; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
-            width: 100%; cursor: pointer; position: relative;
-        }
-        .char-card:hover { 
-            transform: translateY(-3px); 
-            border-color: var(--accent-red); 
-            box-shadow: 0 4px 20px rgba(229, 62, 62, 0.15);
-        }
+.char-card {
+    display: flex; background: var(--card-bg); border: 1px solid var(--border-color);
+    border-radius: 8px; overflow: hidden; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    width: 100%; cursor: pointer; position: relative;
+    box-sizing: border-box;
+}
+.char-card:hover { 
+    transform: translateY(-3px); 
+    border-color: var(--accent-red); 
+    box-shadow: 0 4px 20px rgba(229, 62, 62, 0.15);
+}
 
-        .char-img-wrap {
-            width: 220px; min-height: 200px; background: #21262d; display: flex;
-            align-items: center; justify-content: center; flex-shrink: 0; border-right: 1px solid var(--border-color);
-            position: relative;
-        }
-        .char-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
-        .img-placeholder { font-size: 0.8rem; color: var(--text-muted); text-align: center; padding: 10px; }
+.char-img-wrap {
+    width: 220px; min-height: 200px; background: #21262d; display: flex;
+    align-items: center; justify-content: center; flex-shrink: 0; border-right: 1px solid var(--border-color);
+    position: relative;
+}
+.char-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+.img-placeholder { font-size: 0.8rem; color: var(--text-muted); text-align: center; padding: 10px; }
 
-        .char-info { padding: 16px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .char-header { display: flex; justify-content: flex-start; align-items: center; gap: 10px; margin-bottom: 8px; }
-        .char-name { font-size: 1.15rem; font-weight: bold; color: #fff; }
-        .char-tag { font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; background: #21262d; color: var(--accent-blue); border: 1px solid var(--border-color); }
-        .char-desc { font-size: 0.85rem; color: var(--text-main); margin-bottom: 10px; }
-        .char-spec { font-size: 0.8rem; color: var(--text-muted); background: #0d1117; padding: 8px; border-radius: 4px; }
+.char-info { 
+    padding: 16px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; 
+    word-break: keep-all; /* 👈 글자가 세로로 한 글자씩 잘리는 현상 방지 */
+    overflow-wrap: break-word;
+}
+.char-header { display: flex; justify-content: flex-start; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+.char-name { font-size: 1.15rem; font-weight: bold; color: #fff; }
+.char-tag { font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; background: #21262d; color: var(--accent-blue); border: 1px solid var(--border-color); }
+.char-desc { font-size: 0.85rem; color: var(--text-main); margin-bottom: 10px; line-height: 1.5; word-break: keep-all; }
+.char-spec { font-size: 0.8rem; color: var(--text-muted); background: #0d1117; padding: 8px; border-radius: 4px; line-height: 1.5; word-break: keep-all; }
 
-        /* 🔍 캐릭터 상세 모달 팝업 */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.85); z-index: 20000; display: none;
-            align-items: center; justify-content: center; padding: 20px;
-            backdrop-filter: blur(4px);
-        }
-        .modal-overlay.active { display: flex; animation: fadeIn 0.25s ease-out; }
+/* 🔍 캐릭터 상세 모달 팝업 */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.85); z-index: 20000; display: none;
+    align-items: center; justify-content: center; padding: 20px;
+    backdrop-filter: blur(4px); box-sizing: border-box;
+}
+.modal-overlay.active { display: flex; animation: fadeIn 0.25s ease-out; }
 
-        .modal-content {
-            background: var(--card-bg); border: 1px solid var(--accent-red);
-            border-radius: 12px; width: 100%; max-width: 650px; max-height: 90vh;
-            overflow-y: auto; padding: 24px; position: relative; color: var(--text-main);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+.modal-content {
+    background: var(--card-bg); border: 1px solid var(--accent-red);
+    border-radius: 12px; width: 100%; max-width: 650px; max-height: 90vh;
+    overflow-y: auto; padding: 24px; position: relative; color: var(--text-main);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); box-sizing: border-box;
+}
 
-        .modal-close-btn {
-            position: absolute; top: 16px; right: 20px; font-size: 1.8rem;
-            color: var(--text-muted); cursor: pointer; border: none; background: transparent;
-            line-height: 1; transition: color 0.2s;
-        }
-        .modal-close-btn:hover { color: #fff; }
+.modal-close-btn {
+    position: absolute; top: 16px; right: 20px; font-size: 1.8rem;
+    color: var(--text-muted); cursor: pointer; border: none; background: transparent;
+    line-height: 1; transition: color 0.2s;
+}
+.modal-close-btn:hover { color: #fff; }
 
-        .modal-header { border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px; }
-        .modal-title { font-size: 1.5rem; color: #fff; font-weight: 800; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-        .modal-quote { font-style: italic; color: var(--accent-red); margin-top: 6px; font-size: 0.95rem; }
+.modal-header { border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px; }
+.modal-title { font-size: 1.5rem; color: #fff; font-weight: 800; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.modal-quote { font-style: italic; color: var(--accent-red); margin-top: 6px; font-size: 0.95rem; }
 
-        .modal-body-spec { background: #0d1117; padding: 14px; border-radius: 6px; border: 1px solid var(--border-color); font-size: 0.9rem; margin-bottom: 20px; line-height: 1.6; }
+.modal-body-spec { background: #0d1117; padding: 14px; border-radius: 6px; border: 1px solid var(--border-color); font-size: 0.9rem; margin-bottom: 20px; line-height: 1.6; word-break: keep-all; }
 
-        /* 🖼️ 추가 이미지 갤러리 영역 (2개) */
-        .extra-gallery-title { font-size: 1rem; color: #fff; font-weight: bold; margin-bottom: 10px; border-left: 3px solid var(--accent-blue); padding-left: 8px; }
-        .extra-gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px; }
-        
-        .extra-img-card {
-            width: 100%; height: 220px; background: #0d1117; border: 1px dashed var(--border-color);
-            border-radius: 6px; display: flex; align-items: center; justify-content: center;
-            overflow: hidden; position: relative;
-        }
-        .extra-img-card img { width: 100%; height: 100%; object-fit: cover; }
+/* 🖼️ 추가 이미지 갤러리 영역 (2개) */
+.extra-gallery-title { font-size: 1rem; color: #fff; font-weight: bold; margin-bottom: 10px; border-left: 3px solid var(--accent-blue); padding-left: 8px; }
+.extra-gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px; }
 
-        /* 🏫 시설 갤러리 카드 스타일 */
-        .facility-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
-        .facility-card {
-            background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px;
-            overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s, border-color 0.2s;
-        }
-        .facility-card:hover { transform: translateY(-3px); border-color: #58a6ff; }
+.extra-img-card {
+    width: 100%; height: 220px; background: #0d1117; border: 1px dashed var(--border-color);
+    border-radius: 6px; display: flex; align-items: center; justify-content: center;
+    overflow: hidden; position: relative;
+}
+.extra-img-card img { width: 100%; height: 100%; object-fit: cover; }
 
-        .facility-img-wrap {
-            width: 100%; height: 160px; background: #21262d; display: flex;
-            align-items: center; justify-content: center; border-bottom: 1px solid var(--border-color);
-        }
-        .facility-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+/* 🏫 시설 갤러리 카드 스타일 */
+.facility-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+.facility-card {
+    background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px;
+    overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s, border-color 0.2s;
+}
+.facility-card:hover { transform: translateY(-3px); border-color: #58a6ff; }
 
-        .facility-info { padding: 15px; flex-grow: 1; }
-        .facility-name { font-size: 1rem; font-weight: bold; color: #fff; margin-bottom: 6px; }
-        .facility-desc { font-size: 0.85rem; color: var(--text-main); line-height: 1.4; }
+/* ❌ 급식실 빨간 테두리 클래스(.danger-card) 완전 삭제 처리 완료 */
+
+.facility-img-wrap {
+    width: 100%; height: 160px; background: #21262d; display: flex;
+    align-items: center; justify-content: center; border-bottom: 1px solid var(--border-color);
+}
+.facility-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+
+.facility-info { padding: 15px; flex-grow: 1; word-break: keep-all; }
+.facility-name { font-size: 1rem; font-weight: bold; color: #fff; margin-bottom: 6px; }
+.facility-desc { font-size: 0.85rem; color: var(--text-main); line-height: 1.4; }
+
+
+/* 📱 모바일 반응형 자동 조정 (교내 시설처럼 깔끔하게 변경) */
+@media (max-width: 768px) {
+    .char-card {
+        flex-direction: column !important; /* 모바일에서 이미지가 위로, 텍스트가 아래로 배치 */
+    }
+    .char-img-wrap {
+        width: 100% !important;
+        height: 200px !important;
+        min-height: auto !important;
+        border-right: none !important;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .extra-gallery-grid {
+        grid-template-columns: 1fr; /* 모바일 모달 창 안의 추가 이미지도 1열 정렬 */
+    }
+}
 
         /* 🏫 학교 및 시스템 정보 스타일 */
         .info-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; margin-bottom: 20px; }
